@@ -95,8 +95,17 @@ app.delete("/jokes/:id", (req, res) => {
 
 //8. DELETE All jokes
 
-app.delete("/jokes/all", (req, res) => {
-  res.json(jokes.splice(0, jokes.length));
+app.delete("/all", (req, res) => {
+  userKey = req.query.key;
+
+  if (userKey === masterKey) {
+    jokes = [];
+    res.sendStatus(200);
+  } else {
+    res
+      .status(404)
+      .json({ error: `You do not have the permission to do this action` });
+  }
 });
 
 app.listen(port, () => {
